@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 class ProductManager {
    constructor(path) {
@@ -34,7 +34,6 @@ class ProductManager {
       try {
          if (fs.existsSync(this.path)) {
             let productos = this.arr;
-            console.log(productos);
             return productos;
          } else {
             console.log("Archivo no existe");
@@ -42,7 +41,7 @@ class ProductManager {
          }
       } catch (err) {
          throw err;
-      }
+      } 
    }
    async getProductById(idProduct) {
       try {
@@ -51,6 +50,7 @@ class ProductManager {
             let productFinded = producto.find((e) => e.id == idProduct);
             if (productFinded) {
                console.log(productFinded);
+               return productFinded
             } else {
                console.log("Not Found");
             }
@@ -92,14 +92,16 @@ class ProductManager {
    }
 }
 
-const product1 = new ProductManager("database.json");
+//const product1 = new ProductManager("./database.json");
 
-product1.addProduct("Pan", "Hecho con harina", 500, "Imagen de Pan.jpeg", "ar025", 52);
-product1.addProduct("Pan", "Hecho con harina", 500, "Imagen de Pan.jpeg", "ar025", 52);
-product1.addProduct("Bizcochos", "Hecho con harina", 200, "Imagen de Bizcocho.jpeg", "ar022", 22);
-product1.addProduct("Chipa", "Hecho con harina", 300, "Imagen de Chipa.jpeg", "ar021", 22);
+//product1.addProduct("Pan", "Hecho con harina", 500, "Imagen de Pan.jpeg", "ar025", 52);
+//product1.addProduct("Pan", "Hecho con harina", 500, "Imagen de Pan.jpeg", "ar025", 52);
+//product1.addProduct("Bizcochos", "Hecho con harina", 200, "Imagen de Bizcocho.jpeg", "ar022", 22);
+//product1.addProduct("Chipa", "Hecho con harina", 300, "Imagen de Chipa.jpeg", "ar021", 22);
 //console.log(product1.getProducts()); // Va a devolver todos los productos de mi archivo
-product1.getProductById(3); //Busca en el carrito un id=3
-product1.getProductById(7); //Busca un id que no existe
-product1.updateProduct(4, "Prod Act", "Hecho con harina", 300, "Imagen de Chipa.jpeg", "ar021", 22);
+//product1.getProductById(3); //Busca en el carrito un id=3
+//product1.getProductById(7); //Busca un id que no existe
+//product1.updateProduct(4, "Prod Act", "Hecho con harina", 300, "Imagen de Chipa.jpeg", "ar021", 22);
 //product1.deleteProduct(4); //Elimina el producto cuyo id es el 4
+
+export default new ProductManager("./src/database.json");
