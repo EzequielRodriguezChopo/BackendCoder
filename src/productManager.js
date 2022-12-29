@@ -15,7 +15,7 @@ class ProductManager {
          description,
          price,
          thumbnail,
-         code,
+         code, 
          stock,
       };
       if (this.arr.length == 0) {

@@ -11,7 +11,7 @@ app.get("/products", async (req, res) => {
       let user = users.filter((e) => e.id <= limit);
       res.json(user);
    } else {
-      res.json(users);
+      res.json(users); 
    }
 });
 
