@@ -2,37 +2,56 @@
 	{
 		"title": "Pan",
 		"description": "Hecho con harina",
-		"price": 500,
-		"thumbnail": "Imagen de Pan.jpeg",
 		"code": "ar025",
+		"price": 500,
+		"status": "ok",
 		"stock": 52,
+		"category": "comida",
+		"thumbnails": "Imagen de Pan.jpeg",
 		"id": 1
 	},
 	{
-		"title": "Pan",
+		"title": "Bizcochos",
 		"description": "Hecho con harina",
-		"price": 500,
-		"thumbnail": "Imagen de Pan.jpeg",
-		"code": "ar025", 
-		"stock": 52,
+		"code": "ar022",
+		"price": 200,
+		"status": "ok",
+		"stock": 22,
+		"category": "comida",
+		"thumbnails": "Imagen de Bizcochon.jpeg",
 		"id": 2
 	},
 	{
 		"title": "Bizcochos",
 		"description": "Hecho con harina",
-		"price": 200,
-		"thumbnail": "Imagen de Bizcocho.jpeg",
 		"code": "ar022",
+		"price": 200,
+		"status": "ok",
 		"stock": 22,
+		"category": "comida",
+		"thumbnails": "Imagen de Bizcocho.jpeg",
 		"id": 3
 	},
 	{
 		"title": "Prod Act",
 		"description": "Hecho con harina",
-		"price": 300,
-		"thumbnail": "Imagen de Chipa.jpeg",
 		"code": "ar021",
+		"price": 300,
+		"status": "ok",
 		"stock": 22,
+		"category": "comida",
+		"thumbnails": "Imagen de Chipa.jpeg",
 		"id": 4
+	},
+	{
+		"title": "Bizcochos",
+		"description": "Hecho con harina",
+		"code": "ar022",
+		"price": 200,
+		"status": "ok",
+		"stock": 22,
+		"category": "comida",
+		"thumbnails": "Imagen de Bizcocho.jpeg",
+		"id": 5
 	}
-]
+] 

@@ -1,22 +1,86 @@
 import fs from "fs";
 
 class ProductManager {
-   constructor(path) {
+   constructor(path, pathCart) {
       this.path = path;
+      this.pathCart = pathCart;
       if (fs.existsSync(path)) {
          this.arr = JSON.parse(fs.readFileSync(this.path, "utf-8"));
       } else {
          this.arr = [];
       }
+      if (fs.existsSync(pathCart)) {
+         this.cart = JSON.parse(fs.readFileSync(this.pathCart, "utf-8"));
+      } else {
+         this.cart = [];
+      }
    }
-   async addProduct(title, description, price, thumbnail, code, stock) {
+
+   async createCart() { 
+      let cartNew = {
+         products: [],
+      };
+      if (this.cart.length == 0) {
+         cartNew["id"] = this.cart.length + 1;
+         this.cart.push(cartNew);
+         console.log("Carrito creado con exito");
+         await fs.promises.writeFile(this.pathCart, JSON.stringify(this.cart, null, "\t"));
+      } else {
+         cartNew["id"] = this.cart[this.cart.length - 1].id + 1;
+         this.cart.push(cartNew);
+         console.log("Producto agregado con exito");
+         await fs.promises.writeFile(this.pathCart, JSON.stringify(this.cart, null, "\t"));
+      }
+   }
+
+   async getCart(idc) {
+      try {
+         if (fs.existsSync(this.pathCart)) {
+            let carrito = this.cart;
+            let cartFinded = carrito.find((e) => e.id == idc);
+            if (cartFinded) {
+               console.log(cartFinded);
+               return cartFinded.products;
+            } else {
+               console.log("Not Found");
+               return "No existe el carrito deseado";
+            }
+         }
+      } catch (err) {
+         throw err;
+      }
+   }
+
+   async addProductToCart(idc, pid) {
+      try {
+         if (fs.existsSync(this.pathCart)) {
+            let carrito = this.cart;
+            let cartFinded = carrito.find((e) => e.id == idc);
+            if (cartFinded) {
+               cartFinded.products.push(pid);
+               cartFinded["quantity"] = 1;
+               console.log(cartFinded);
+               return cartFinded.products;
+            } else {
+               console.log("Not Found");
+               return "No existe el carrito deseado";
+            }
+         }
+      } catch (err) {
+         throw err;
+      }
+   }
+
+   async addProduct(title, description, code, price, status, stock, category, thumbnails) {
       let product = {
          title,
          description,
+         code,
          price,
-         thumbnail,
-         code, 
+         status,
          stock,
+         category,
+         thumbnails,
       };
       if (this.arr.length == 0) {
          product["id"] = this.arr.length + 1;
@@ -41,7 +105,7 @@ class ProductManager {
          }
       } catch (err) {
          throw err;
-      } 
+      }
    }
    async getProductById(idProduct) {
       try {
@@ -50,7 +114,7 @@ class ProductManager {
             let productFinded = producto.find((e) => e.id == idProduct);
             if (productFinded) {
                console.log(productFinded);
-               return productFinded
+               return productFinded;
             } else {
                console.log("Not Found");
             }
@@ -60,16 +124,19 @@ class ProductManager {
       }
    }
 
-   async updateProduct(idProducto, title, description, price, thumbnail, code, stock) {
+   async updateProduct(title, description, code, price, status, stock, category, thumbnails, idProducto) {
       let actualizedProduct = {
          title,
          description,
-         price,
-         thumbnail,
          code,
+         price,
+         status,
          stock,
+         category,
+         thumbnails,
          id: idProducto,
       };
+      console.log(actualizedProduct);
       let finded = this.arr.find((e) => e.id === idProducto);
       let posicionObj = finded.id - 1;
       this.arr[posicionObj] = actualizedProduct;
@@ -88,7 +155,7 @@ class ProductManager {
       let posicionObj = finded.id - 1;
       let removed = this.arr.splice(posicionObj, 1);
       console.log("Producto borrado con exito");
-      await fs.promises.writeFile("./database.txt", JSON.stringify(this.arr, null, 2));
+      await fs.promises.writeFile(this.path, JSON.stringify(this.arr, null, 2));
    }
 }
 
@@ -104,4 +171,4 @@ class ProductManager {
 //product1.updateProduct(4, "Prod Act", "Hecho con harina", 300, "Imagen de Chipa.jpeg", "ar021", 22);
 //product1.deleteProduct(4); //Elimina el producto cuyo id es el 4
 
-export default new ProductManager("./src/database.json");
+export default new ProductManager("./src/productos.json", "./src/carrito.json");

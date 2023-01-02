@@ -1,25 +1,14 @@
 import express from "express";
-import userManager from "./productManager.js";
+import productRoute from "../routes/products.routes.js"
+import cartsRoute from "../routes/carts.routes.js"
+
 const app = express();
 
-app.get("/products", async (req, res) => {
-   let { limit } = req.query;
-   const users = await userManager.getProducts();
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
-   console.log(limit);
-   if (limit) {
-      let user = users.filter((e) => e.id <= limit);
-      res.json(user);
-   } else {
-      res.json(users); 
-   }
-});
-
-app.get("/products/:id", async (req, res) => {
-   const { id } = req.params;
-   const users = await userManager.getProductById(id);
-   res.json(users);
-});
+app.use("/api/products",productRoute)
+app.use("/api/carts",cartsRoute)
 
 app.get("*",(req,res)=>{
     res.send("Error al escribir la el path")
