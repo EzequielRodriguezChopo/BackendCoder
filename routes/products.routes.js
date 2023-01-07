@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
 
    if (!title) {
       throw new Error("Title is required");
-   }
+   } 
    if (!description) {
       throw new Error("Description is required");
    }

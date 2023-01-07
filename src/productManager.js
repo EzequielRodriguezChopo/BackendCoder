@@ -16,7 +16,7 @@ class ProductManager {
       }
    }
 
-   async createCart() { 
+   async createCart() {
       let cartNew = {
          products: [],
       };
@@ -53,17 +53,44 @@ class ProductManager {
 
    async addProductToCart(idc, pid) {
       try {
-         if (fs.existsSync(this.pathCart)) {
-            let carrito = this.cart;
-            let cartFinded = carrito.find((e) => e.id == idc);
-            if (cartFinded) {
-               cartFinded.products.push(pid);
-               cartFinded["quantity"] = 1;
-               console.log(cartFinded);
-               return cartFinded.products;
+         if (fs.existsSync(this.pathCart)) {       // Verifico si existe el archivo "Carrito"
+            if (fs.existsSync(this.path)) {        // Verifico si exixte el archivo "Productos"
+               let productos = this.arr;
+               let ifProductExist = productos.find((e) => e.id === pid);
+               if (ifProductExist) {               // Si existe el producto...
+                  let carrito = this.cart;
+                  let cartFinded = carrito.find((e) => e.id == idc);
+                  if (cartFinded) {                // Si existe el carrito...
+                     let productfind = cartFinded.products.find((e) => e.product === pid);
+                     if (productfind) {            // Si encuento el producto dentro del carrito...
+                        cartFinded.products[cartFinded.products.indexOf(productfind)] = {
+                           product: pid,
+                           quantity: cartFinded.products[cartFinded.products.indexOf(productfind)].quantity + 1,
+                        };
+                     } else {                      // Sino hay ese producto lo creo con "quantity=1"
+                        cartFinded.products.push({
+                           product: pid,
+                           quantity: 1,
+                        });
+                     }
+                     let index = carrito.findIndex(function (el) {   // Busco el index del carrito modificado
+                        return el.id == cartFinded.id;
+                     });
+                     carrito.splice(index, 1, cartFinded);        // Reemplazo en mi array de objeto original, por el carrito modificado
+                     console.log(carrito);
+                     await fs.promises.writeFile(this.pathCart, JSON.stringify(carrito, null, "\t"));
+                     return "Carrito modificado con exito";
+                  } else {
+                     console.log("Not Found");
+                     return "No existe el carrito deseado";
+                  }
+               } else {
+                  console.log("El producto seleccionado no existe");
+                  return "El producto seleccionado no existe";
+               }
             } else {
-               console.log("Not Found");
-               return "No existe el carrito deseado";
+               console.log("Archivo no existe");
+               return "Archivo no existe";
             }
          }
       } catch (err) {

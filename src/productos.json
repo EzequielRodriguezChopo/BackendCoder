@@ -4,7 +4,7 @@
 		"description": "Hecho con harina",
 		"code": "ar025",
 		"price": 500,
-		"status": "ok",
+		"status": "ok", 
 		"stock": 52,
 		"category": "comida",
 		"thumbnails": "Imagen de Pan.jpeg",

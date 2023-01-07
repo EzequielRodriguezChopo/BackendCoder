@@ -16,7 +16,7 @@ router.post("/:cid/product/:pid", async (req, res) => {
    let { cid, pid } = req.params;
    cid = Number(cid);
    pid = Number(pid);
-   await userManager.addProductToCart(cid, pid);
-   res.send("Carrito modificado con exito");
+   let msj = await userManager.addProductToCart(cid, pid);
+   res.send(msj);
 });
 export default router;
